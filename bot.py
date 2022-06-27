@@ -7,6 +7,10 @@ from ctypes.wintypes import MSG
 from datetime import datetime
 from encodings import utf_8
 import discord,json,os,asyncio
+import traceback,os
+import logging,string
+
+
 
 with open('setting.json','r', encoding='utf8') as jfile:
     jdata = json.load(jfile)
@@ -22,6 +26,7 @@ async def on_ready():
     fawrite=discord.ActivityType.watching
     name='87'
     await bot.change_presence(activity=discord.Activity(type=fawrite,name=name))
+
 
 @bot.command(brief='載入檔案')
 async def load(ctx, extension):
@@ -42,4 +47,4 @@ for filename in os.listdir('./cmds'):
     if filename.endswith('.py'):
         bot.load_extension(F'cmds.{filename[:-3]}')
 if __name__ == '__main__':
-    bot.run('OTg5MTc1ODcxODI0ODU5MTk2.GHUOTM.O0eNdXuJAEOjuZfsnRCGaN1R9KbPFZ-eYfRL9M')
+    bot.run(jdata['TOKEN'])

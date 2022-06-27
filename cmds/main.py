@@ -16,9 +16,19 @@ with open('setting.json','r', encoding='utf8') as jfile:
 tw=((datetime.utcnow().replace(tzinfo=timezone.utc)).astimezone(timezone(timedelta(hours=8)))).strftime("%Y-%m-%d %H:%M:%S")
 dt1 = datetime.utcnow().replace(tzinfo=timezone.utc)
 dt2 = dt1.astimezone(timezone(timedelta(hours=8)))
+
+
+##取得當前時間
+def tw_time():
+  dt1=datetime.utcnow().replace(tzinfo=timezone.utc)#取得時間
+  dt2 = dt1.astimezone(timezone(timedelta(hours=8)))#轉時區
+  tw=dt2.strftime("%Y-%m-%d %H:%M:%S")
+  return tw
+
+
 class Main(Cog_Extension):
 
-
+    
     @commands.command(brief='取得當前延遲', description='使用此指令即可得知當前延遲')
     async def ping(self,ctx):
         print(f'{round(self.bot.latency*1000)} (ms)')
@@ -27,6 +37,7 @@ class Main(Cog_Extension):
     async def sayd(self,ctx,*,msg):
         await ctx.message.delete()
         await ctx.send(msg)
+    
     @commands.command(brief='清除訊息',description='清除訊息')
     async def clean(self,ctx,num:int):
         await ctx.channel.purge(limit=num+1)
@@ -46,6 +57,18 @@ class Main(Cog_Extension):
         message = await ctx.send("hello")
         await asyncio.sleep(1)
         await message.edit(content="newcontent")
+
+    @commands.command()
+    @commands.has_permissions(administrator=True) 
+    async def update(self,ctx):
+        retStr = str(f"""```css\n{tw_time()}```""")
+        retStrupdtae = str(f"""```css\n更新拒聽紀錄```""")
+        embed=discord.Embed(title=" ")
+        embed.set_author(name="系統", icon_url="https://i.imgur.com/NkoBPr0.gif")
+        embed.add_field(name="更新內容", value=retStrupdtae, inline=False)
+        embed.add_field(name="時間", value=retStr, inline=True)
+        await ctx.send(embed=embed)
+
 
 
 
