@@ -1,4 +1,5 @@
 import asyncio
+from asyncio import tasks
 from contextlib import asynccontextmanager
 from fileinput import filename
 from lib2to3.pgen2.token import ASYNC
@@ -18,15 +19,18 @@ with open('setting.json','r', encoding='utf8') as jfile:
 intents=discord.Intents.all()
 bot = commands.Bot(command_prefix= '[',intents=intents)
 
+
 @bot.event
 async def on_ready():
     channel=bot.get_channel(989182594409197618)
-    print('bot is online')
     await channel.send('bot is online')
     fawrite=discord.ActivityType.watching
     name='87'
     await bot.change_presence(activity=discord.Activity(type=fawrite,name=name))
-
+    for filename in os.listdir('./cmds'):
+        if filename.endswith(".py"):
+            await bot.load_extension(f'cmds.{filename[:-3]}')
+    print("Bot is ready")
 
 @bot.command(brief='載入檔案')
 async def load(ctx, extension):
@@ -43,8 +47,8 @@ async def reload(ctx,extension):
     bot.reload_extension(F'cmds.{extension}')
     await ctx.send(f'重新載入{extension} 完成!')
 
-for filename in os.listdir('./cmds'):
-    if filename.endswith('.py'):
-        bot.load_extension(F'cmds.{filename[:-3]}')
+# for filename in os.listdir('./cmds'):
+#     if filename.endswith('.py'):
+#         bot.load_extension(F'cmds.{filename[:-3]}')
 if __name__ == '__main__':
     bot.run(jdata['TOKEN'])

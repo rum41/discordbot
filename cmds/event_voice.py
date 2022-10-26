@@ -108,10 +108,8 @@ class Event_voice(Cog_Extension):
             embed.add_field(name="時間", value=retStr, inline=False)
             await logs.send(embed=embed)
 
-
         else:
             pass
 
-
-def setup(bot):
-    bot.add_cog(Event_voice(bot))
+async def setup(bot):
+    await bot.add_cog(Event_voice(bot))

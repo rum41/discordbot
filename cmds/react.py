@@ -15,5 +15,5 @@ class React(Cog_Extension):
         pic=discord.File(jdata['pic'])
         await ctx.send(file=pic)
 
-def setup(bot):
-    bot.add_cog(React(bot))
+async def setup(bot):
+    await bot.add_cog(React(bot))
