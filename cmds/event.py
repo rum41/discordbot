@@ -82,10 +82,20 @@ class Event(Cog_Extension):
         ###########################
         n='\n'
         now_time = str(f"""```css\n{tw_time()}```""")
-        embed=discord.Embed(title=" ", description=f"歡迎加入stora country{n}{member.mention}{n}{now_time}", color=0x5899ee)
+        guild_list=[688748599437164579,1000337484451954698]#各伺服器id
+
+        print(member.guild.id)
+        if member.guild.id == guild_list[0]:
+            embed=discord.Embed(title=" ", description=f"歡迎加入stora country{n}{member.mention}{n}{now_time}", color=0x5899ee)
+            channel = self.bot.get_channel(721237070458126357)
+        else:
+            embed=discord.Embed(title=" ", description=f"歡迎加入{member.mention}{now_time}", color=0x5899ee)
+            channel = self.bot.get_channel(1034847924296876114)
+
+        
         embed.set_thumbnail(url=member.display_avatar.url)
         embed.set_author(name=" 通知", icon_url="https://i.imgur.com/NkoBPr0.gif")
-        channel = self.bot.get_channel(721237070458126357)
+        
         await channel.send(embed=embed)
         await mchannel.edit(name=f'目前伺服器人數 : {len(cm)}')
     

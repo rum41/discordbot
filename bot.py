@@ -9,7 +9,8 @@ from datetime import datetime
 from encodings import utf_8
 import discord,json,os,asyncio
 import traceback,os
-import logging,string
+import logging,string,tkinter
+import tkinter as tk
 
 
 
@@ -32,11 +33,26 @@ async def on_ready():
             await bot.load_extension(f'cmds.{filename[:-3]}')
     print("Bot is ready")
 
+
+
+root = tk.Tk()
+root.title('my window')
+root.geometry('200x150')
+
+
+
+
+
+root.mainloop()
 @bot.command(brief='載入檔案')
 async def load(ctx, extension):
+    def button_event():
+        bot.load_extension(f'cmds.{extension}')
+    
     bot.load_extension(f'cmds.{extension}')
     await ctx.send(f'載入{extension} 完成!')
-
+    mybutton = tk.Button(root, text='button', command=button_event)
+    mybutton.pack()
 @bot.command(brief='卸下檔案')
 async def unload(ctx,extension):
     bot.unload_extension(f'cmds.{extension}')
